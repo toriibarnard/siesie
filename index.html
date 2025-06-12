@@ -3,275 +3,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sienna & Torii's Summer Adventures</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Sienna & Torii's Love Adventures ✨</title>
+    <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        body {
-            font-family: 'Quicksand', sans-serif;
-            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
-            background-attachment: fixed;
-        }
-        .title-font {
-            font-family: 'Pacifico', cursive;
-        }
-        .main-container {
-            max-width: 800px;
-            margin: 2rem auto;
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
-            border-radius: 1.5rem;
-            box-shadow: 0 20px 30px -15px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-        }
-        .list-item {
-            transition: all 0.3s ease;
-            transform: scale(1);
-        }
-        .list-item:hover {
-            box-shadow: 0 8px 15px -5px rgba(0, 0, 0, 0.1);
-            transform: scale(1.02);
-        }
-        .completed .activity-text {
-            text-decoration: line-through;
-            color: #a5b4fc;
-        }
-        .checkbox-custom {
-            display: none; /* Hide original checkbox */
-        }
-        .checkbox-label {
-            cursor: pointer;
-            width: 28px;
-            height: 28px;
-            border: 2px solid #ddd;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-        .checkbox-custom:checked + .checkbox-label {
-            background-color: #a78bfa;
-            border-color: #a78bfa;
-            color: white;
-            animation: bounce 0.3s ease;
-        }
-        @keyframes bounce {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-        .progress-bar-bg {
-            background-color: #e0e7ff;
-        }
-        .progress-bar {
-            background: linear-gradient(to right, #a78bfa, #c4b5fd);
-            transition: width 0.5s ease-in-out;
-        }
-        input[type="date"]::-webkit-calendar-picker-indicator {
-            cursor: pointer;
-            opacity: 0.6;
-            transition: opacity 0.2s;
-        }
-        input[type="date"]::-webkit-calendar-picker-indicator:hover {
-            opacity: 1;
-        }
-    </style>
 </head>
-<body class="text-gray-700">
+<body>
+    <!-- Floating Hearts Background -->
+    <div class="hearts-container">
+        <div class="heart heart-1">💕</div>
+        <div class="heart heart-2">💖</div>
+        <div class="heart heart-3">💗</div>
+        <div class="heart heart-4">💝</div>
+        <div class="heart heart-5">💘</div>
+        <div class="heart heart-6">💞</div>
+    </div>
 
+    <!-- Particles Container -->
+    <div id="particles-container"></div>
+
+    <!-- Main Container -->
     <div class="main-container">
-        <!-- Header -->
-        <div class="text-center mb-8">
-            <h1 class="text-6xl text-purple-500 title-font">Sienna & Torii's</h1>
-            <p class="text-2xl text-pink-400 mt-2">Summer Adventure List</p>
+        <!-- Header Section -->
+        <div class="header-section">
+            <div class="couple-avatar">
+                <div class="avatar-heart">💕</div>
+            </div>
+            <h1 class="main-title">
+                <span class="title-line-1">Sienna</span>
+                <span class="title-heart">💕</span>
+                <span class="title-line-2">Torii</span>
+            </h1>
+            <p class="subtitle">Our Summer Love Adventures</p>
+            <div class="love-quote">
+                "Every love story is beautiful, but ours is my favorite"
+            </div>
         </div>
 
-        <!-- Progress Bar -->
-        <div class="mb-8">
-            <div class="flex justify-between items-center mb-2">
-                <span class="text-lg font-semibold text-purple-600">Adventure Progress</span>
-                <span id="progress-text" class="text-lg font-bold text-purple-600">0%</span>
+        <!-- Progress Section -->
+        <div class="progress-section">
+            <div class="progress-header">
+                <h3 class="progress-title">
+                    <i class="fas fa-heart pulse-heart"></i>
+                    Adventure Progress
+                    <i class="fas fa-heart pulse-heart"></i>
+                </h3>
+                <div class="progress-stats">
+                    <span id="progress-text" class="progress-percentage">0%</span>
+                    <span id="completed-count" class="completed-text">0 of 0 completed</span>
+                </div>
             </div>
-            <div class="w-full progress-bar-bg rounded-full h-4">
-                <div id="progress-bar" class="progress-bar h-4 rounded-full" style="width: 0%;"></div>
+            <div class="progress-bar-container">
+                <div id="progress-bar" class="progress-bar"></div>
+                <div class="progress-sparkles">✨</div>
             </div>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <button class="filter-btn active" data-filter="all">
+                <i class="fas fa-heart"></i> All Adventures
+            </button>
+            <button class="filter-btn" data-filter="pending">
+                <i class="fas fa-clock"></i> Pending
+            </button>
+            <button class="filter-btn" data-filter="completed">
+                <i class="fas fa-check-circle"></i> Completed
+            </button>
         </div>
 
         <!-- Bucket List -->
-        <div id="bucket-list-container" class="space-y-4">
+        <div id="bucket-list-container" class="bucket-list-container">
             <!-- Items will be inserted here by JavaScript -->
         </div>
         
-        <!-- Add New Item -->
-        <div class="mt-8 pt-6 border-t-2 border-dashed border-gray-300">
-             <div class="flex flex-col sm:flex-row gap-4">
-                <input type="text" id="new-item-input" placeholder="Add a new adventure!" class="flex-grow p-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent transition">
-                <button id="add-item-btn" class="bg-pink-400 text-white font-bold py-3 px-6 rounded-lg hover:bg-pink-500 transition-transform transform hover:scale-105 shadow-md">
-                    <i class="fas fa-plus mr-2"></i>Add to List
-                </button>
+        <!-- Add New Item Section -->
+        <div class="add-item-section">
+            <h3 class="add-title">
+                <i class="fas fa-plus-circle"></i>
+                Add a New Love Adventure
+            </h3>
+            <div class="add-item-form">
+                <div class="input-group">
+                    <input type="text" id="new-item-input" placeholder="What adventure shall we add to our love story?">
+                    <button id="add-item-btn" class="add-btn">
+                        <i class="fas fa-heart"></i>
+                        <span>Add to Our Story</span>
+                    </button>
+                </div>
             </div>
         </div>
 
+        <!-- Love Stats Section -->
+        <div class="love-stats">
+            <div class="stat-item">
+                <div class="stat-icon">💕</div>
+                <div class="stat-label">Adventures Planned</div>
+                <div class="stat-value" id="total-adventures">0</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon">✨</div>
+                <div class="stat-label">Memories Made</div>
+                <div class="stat-value" id="completed-adventures">0</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon">💖</div>
+                <div class="stat-label">Love Level</div>
+                <div class="stat-value">∞</div>
+            </div>
+        </div>
     </div>
 
-    <script>
-        const initialItems = [
-            { text: "Road trip somewhere remote to stargaze", icon: "fa-star", checked: false, date: "" },
-            { text: "Be friends with each other’s friends", icon: "fa-users", checked: false, date: "" },
-            { text: "Camping OR hiking", icon: "fa-campground", checked: false, date: "" },
-            { text: "Sing and play guitar", icon: "fa-guitar", checked: false, date: "" },
-            { text: "Sienna's fam reunion", icon: "fa-people-roof", checked: false, date: "" },
-            { text: "Go to Narnia (the secret spot!)", icon: "fa-tree", checked: false, date: "" },
-            { text: "Surfing", icon: "fa-water", checked: false, date: "" },
-            { text: "Fishing and Kayaking", icon: "fa-fish", checked: false, date: "" },
-            { text: "Golfing", icon: "fa-golf-ball-tee", checked: false, date: "" },
-            { text: "Pickle ball", icon: "fa-table-tennis-paddle-ball", checked: false, date: "" },
-            { text: "Tennis", icon: "fa-baseball-bat-ball", checked: true, date: "" },
-            { text: "Pleasant Park run", icon: "fa-person-running", checked: false, date: "" },
-            { text: "Ride a two-person bicycle", icon: "fa-bicycle", checked: false, date: "" },
-            { text: "Play soccer at the beach", icon: "fa-futbol", checked: false, date: "" },
-            { text: "Drive in theatre", icon: "fa-film", checked: false, date: "" },
-            { text: "Bake together", icon: "fa-cookie-bite", checked: false, date: "" },
-            { text: "Go to Ontree", icon: "fa-tree-city", checked: false, date: "" },
-            { text: "Go to Torii’s cottage", icon: "fa-house-chimney-window", checked: false, date: "" },
-            { text: "Go to Sienna’s cottage", icon: "fa-house-chimney-user", checked: false, date: "" },
-            { text: "Bike to the dam and swim at night", icon: "fa-moon", checked: false, date: "" },
-            { text: "Skinny dip", icon: "fa-water-ladder", checked: false, date: "" },
-            { text: "Karaoke", icon: "fa-microphone-lines", checked: false, date: "" },
-            { text: "Do a couple's yoga pose", icon: "fa-heart-pulse", checked: false, date: "" }
-        ];
+    <!-- Celebration Modal -->
+    <div id="celebration-modal" class="celebration-modal">
+        <div class="celebration-content">
+            <div class="celebration-hearts">💕💖💗💘💞💝</div>
+            <h2>Adventure Completed!</h2>
+            <p>Another beautiful memory added to our love story!</p>
+            <button id="close-celebration" class="celebration-btn">
+                <i class="fas fa-heart"></i> Close
+            </button>
+        </div>
+    </div>
 
-        let bucketListItems = [];
+    <!-- Memory Modal -->
+    <div id="memory-modal" class="memory-modal">
+        <div class="memory-content">
+            <span class="close-memory">&times;</span>
+            <h3>Add a Memory 💕</h3>
+            <textarea id="memory-text" placeholder="Tell the story of this beautiful moment..."></textarea>
+            <input type="date" id="memory-date" class="memory-date">
+            <div class="memory-buttons">
+                <button id="save-memory" class="save-memory-btn">
+                    <i class="fas fa-heart"></i> Save Memory
+                </button>
+                <button id="cancel-memory" class="cancel-memory-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
 
-        const listContainer = document.getElementById('bucket-list-container');
-        const newItemInput = document.getElementById('new-item-input');
-        const addItemBtn = document.getElementById('add-item-btn');
-        const progressBar = document.getElementById('progress-bar');
-        const progressText = document.getElementById('progress-text');
-
-        function getIcon(text) {
-            const lowerText = text.toLowerCase();
-            if (lowerText.includes('star')) return 'fa-star';
-            if (lowerText.includes('friend')) return 'fa-users';
-            if (lowerText.includes('camp') || lowerText.includes('hik')) return 'fa-campground';
-            if (lowerText.includes('guitar')) return 'fa-guitar';
-            if (lowerText.includes('fam') || lowerText.includes('reunion')) return 'fa-people-roof';
-            if (lowerText.includes('narnia')) return 'fa-tree';
-            if (lowerText.includes('surf')) return 'fa-water';
-            if (lowerText.includes('fish') || lowerText.includes('kayak')) return 'fa-fish';
-            if (lowerText.includes('golf')) return 'fa-golf-ball-tee';
-            if (lowerText.includes('pickle') || lowerText.includes('tennis')) return 'fa-table-tennis-paddle-ball';
-            if (lowerText.includes('run')) return 'fa-person-running';
-            if (lowerText.includes('bike') || lowerText.includes('bicycle')) return 'fa-bicycle';
-            if (lowerText.includes('soccer')) return 'fa-futbol';
-            if (lowerText.includes('theatre') || lowerText.includes('movie')) return 'fa-film';
-            if (lowerText.includes('bake') || lowerText.includes('cookie')) return 'fa-cookie-bite';
-            if (lowerText.includes('ontree')) return 'fa-tree-city';
-            if (lowerText.includes('cottage')) return 'fa-house-chimney-window';
-            if (lowerText.includes('swim') || lowerText.includes('dip')) return 'fa-swimmer';
-            if (lowerText.includes('karaoke')) return 'fa-microphone-lines';
-            if (lowerText.includes('yoga')) return 'fa-heart-pulse';
-            return 'fa-face-grin-beam'; // Default icon
-        }
-
-        function saveList() {
-            localStorage.setItem('bucketList', JSON.stringify(bucketListItems));
-        }
-
-        function loadList() {
-            const savedList = localStorage.getItem('bucketList');
-            if (savedList) {
-                bucketListItems = JSON.parse(savedList);
-            } else {
-                bucketListItems = initialItems;
-            }
-        }
-
-        function updateProgress() {
-            const completedItems = bucketListItems.filter(item => item.checked).length;
-            const totalItems = bucketListItems.length;
-            const percentage = totalItems > 0 ? Math.round((completedItems / totalItems) * 100) : 0;
-            
-            progressBar.style.width = `${percentage}%`;
-            progressText.textContent = `${percentage}%`;
-        }
-
-        function renderList() {
-            listContainer.innerHTML = '';
-            bucketListItems.forEach((item, index) => {
-                const itemEl = document.createElement('div');
-                itemEl.className = `list-item bg-white p-4 rounded-lg shadow-sm flex items-center gap-4 ${item.checked ? 'completed' : ''}`;
-                
-                itemEl.innerHTML = `
-                    <div class="flex-shrink-0">
-                        <input type="checkbox" id="item-${index}" class="checkbox-custom" ${item.checked ? 'checked' : ''}>
-                        <label for="item-${index}" class="checkbox-label">
-                            <i class="fas fa-check"></i>
-                        </label>
-                    </div>
-                    <div class="flex-grow flex items-center gap-4">
-                         <i class="fas ${item.icon} text-purple-400 text-2xl w-8 text-center"></i>
-                         <span class="activity-text text-lg font-medium flex-grow">${item.text}</span>
-                    </div>
-                    <div class="flex-shrink-0">
-                       <input type="date" value="${item.date}" class="border-2 rounded p-1 text-sm bg-transparent">
-                    </div>
-                `;
-
-                itemEl.querySelector('input[type="checkbox"]').addEventListener('change', (e) => {
-                    bucketListItems[index].checked = e.target.checked;
-                    if(e.target.checked && !bucketListItems[index].date) {
-                         const today = new Date().toISOString().split('T')[0];
-                         bucketListItems[index].date = today;
-                    }
-                    saveAndRender();
-                });
-                
-                itemEl.querySelector('input[type="date"]').addEventListener('change', (e) => {
-                    bucketListItems[index].date = e.target.value;
-                    saveList();
-                });
-
-                listContainer.appendChild(itemEl);
-            });
-            updateProgress();
-        }
-        
-        function addNewItem() {
-            const text = newItemInput.value.trim();
-            if (text) {
-                bucketListItems.push({
-                    text: text,
-                    icon: getIcon(text),
-                    checked: false,
-                    date: ""
-                });
-                newItemInput.value = '';
-                saveAndRender();
-            }
-        }
-
-        function saveAndRender() {
-            saveList();
-            renderList();
-        }
-        
-        addItemBtn.addEventListener('click', addNewItem);
-        newItemInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                addNewItem();
-            }
-        });
-
-        // Initial Load
-        loadList();
-        renderList();
-
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
