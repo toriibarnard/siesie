@@ -86,6 +86,7 @@ class LoveBucketList {
         const closeMemory = document.querySelector('.close-memory');
         const saveMemory = document.getElementById('save-memory');
         const cancelMemory = document.getElementById('cancel-memory');
+        const deleteMemory = document.getElementById('delete-memory');
         
         closeCelebration.addEventListener('click', () => {
             celebrationModal.style.display = 'none';
@@ -100,6 +101,42 @@ class LoveBucketList {
         });
         
         saveMemory.addEventListener('click', () => this.saveMemory());
+        
+        // Delete memory with hold-to-delete functionality
+        let deleteTimeout;
+        let isDeleting = false;
+        
+        deleteMemory.addEventListener('mousedown', () => {
+            if (isDeleting) return;
+            isDeleting = true;
+            deleteMemory.classList.add('deleting');
+            deleteMemory.querySelector('.delete-text').textContent = 'Deleting...';
+            
+            deleteTimeout = setTimeout(() => {
+                this.deleteMemory();
+                isDeleting = false;
+            }, 2000);
+        });
+        
+        deleteMemory.addEventListener('mouseup', () => {
+            if (deleteTimeout) {
+                clearTimeout(deleteTimeout);
+                deleteTimeout = null;
+            }
+            deleteMemory.classList.remove('deleting');
+            deleteMemory.querySelector('.delete-text').textContent = 'Hold to Delete';
+            isDeleting = false;
+        });
+        
+        deleteMemory.addEventListener('mouseleave', () => {
+            if (deleteTimeout) {
+                clearTimeout(deleteTimeout);
+                deleteTimeout = null;
+            }
+            deleteMemory.classList.remove('deleting');
+            deleteMemory.querySelector('.delete-text').textContent = 'Hold to Delete';
+            isDeleting = false;
+        });
         
         // Close modals on outside click
         window.addEventListener('click', (e) => {
@@ -299,6 +336,12 @@ class LoveBucketList {
         
         document.getElementById('memory-text').value = item.memory || '';
         document.getElementById('memory-date').value = item.date || '';
+        
+        // Show/hide delete button based on whether memory exists
+        const deleteBtn = document.getElementById('delete-memory');
+        const hasMemory = item.memory && item.memory.trim() !== '';
+        deleteBtn.style.display = hasMemory ? 'block' : 'none';
+        
         document.getElementById('memory-modal').style.display = 'block';
     }
     
@@ -315,6 +358,39 @@ class LoveBucketList {
         this.renderList();
         document.getElementById('memory-modal').style.display = 'none';
         this.currentEditingIndex = null;
+    }
+    
+    deleteMemory() {
+        if (this.currentEditingIndex === null) return;
+        
+        // Clear the memory and optionally the date
+        this.bucketListItems[this.currentEditingIndex].memory = '';
+        
+        this.saveToStorage();
+        this.renderList();
+        document.getElementById('memory-modal').style.display = 'none';
+        this.currentEditingIndex = null;
+        
+        // Show a subtle confirmation
+        const notification = document.createElement('div');
+        notification.textContent = 'Memory deleted';
+        notification.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(220, 53, 69, 0.9);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 1rem;
+            z-index: 10000;
+            font-weight: 500;
+        `;
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 2000);
     }
     
     // Progress Management
