@@ -214,6 +214,11 @@ class LoveBucketList {
                     </div>
                     <div class="item-actions">
                         <input type="date" value="${item.date}" class="item-date" placeholder="Date completed">
+                        <button class="delete-item-btn" data-index="${index}">
+                            <i class="fas fa-trash"></i>
+                            <span class="delete-text">Hold to Delete</span>
+                            <div class="delete-progress"></div>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -222,6 +227,7 @@ class LoveBucketList {
         // Add event listeners
         const checkbox = itemDiv.querySelector('.item-checkbox');
         const dateInput = itemDiv.querySelector('.item-date');
+        const deleteBtn = itemDiv.querySelector('.delete-item-btn');
         
         checkbox.addEventListener('change', (e) => {
             this.toggleItem(index, e.target.checked);
@@ -229,6 +235,68 @@ class LoveBucketList {
         
         dateInput.addEventListener('change', (e) => {
             this.updateItemDate(index, e.target.value);
+        });
+        
+        // Delete functionality
+        let deleteTimeout;
+        let isDeleting = false;
+        
+        deleteBtn.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            if (isDeleting) return;
+            isDeleting = true;
+            deleteBtn.classList.add('deleting');
+            deleteBtn.querySelector('.delete-text').textContent = 'Deleting...';
+            
+            deleteTimeout = setTimeout(() => {
+                this.deleteItem(index);
+                isDeleting = false;
+            }, 2000);
+        });
+        
+        deleteBtn.addEventListener('mouseup', () => {
+            if (deleteTimeout) {
+                clearTimeout(deleteTimeout);
+                deleteTimeout = null;
+            }
+            deleteBtn.classList.remove('deleting');
+            deleteBtn.querySelector('.delete-text').textContent = 'Hold to Delete';
+            isDeleting = false;
+        });
+        
+        deleteBtn.addEventListener('mouseleave', () => {
+            if (deleteTimeout) {
+                clearTimeout(deleteTimeout);
+                deleteTimeout = null;
+            }
+            deleteBtn.classList.remove('deleting');
+            deleteBtn.querySelector('.delete-text').textContent = 'Hold to Delete';
+            isDeleting = false;
+        });
+        
+        // Touch events for mobile
+        deleteBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            if (isDeleting) return;
+            isDeleting = true;
+            deleteBtn.classList.add('deleting');
+            deleteBtn.querySelector('.delete-text').textContent = 'Deleting...';
+            
+            deleteTimeout = setTimeout(() => {
+                this.deleteItem(index);
+                isDeleting = false;
+            }, 2000);
+        });
+        
+        deleteBtn.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            if (deleteTimeout) {
+                clearTimeout(deleteTimeout);
+                deleteTimeout = null;
+            }
+            deleteBtn.classList.remove('deleting');
+            deleteBtn.querySelector('.delete-text').textContent = 'Hold to Delete';
+            isDeleting = false;
         });
         
         return itemDiv;
@@ -264,6 +332,42 @@ class LoveBucketList {
     updateItemDate(index, date) {
         this.bucketListItems[index].date = date;
         this.saveToStorage();
+    }
+    
+    // Delete Item
+    deleteItem(index) {
+        const itemText = this.bucketListItems[index].text;
+        this.bucketListItems.splice(index, 1);
+        
+        this.saveToStorage();
+        this.renderList();
+        this.updateProgress();
+        this.updateStats();
+        
+        // Show a subtle confirmation
+        const notification = document.createElement('div');
+        notification.textContent = `"${itemText}" deleted`;
+        notification.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(220, 53, 69, 0.9);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 1rem;
+            z-index: 10000;
+            font-weight: 500;
+            max-width: 300px;
+            text-align: center;
+        `;
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            if (document.body.contains(notification)) {
+                document.body.removeChild(notification);
+            }
+        }, 2500);
     }
     
 
