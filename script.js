@@ -4,33 +4,32 @@ class LoveBucketList {
     constructor() {
         this.bucketListItems = [];
         this.currentFilter = 'all';
-        this.currentEditingIndex = null;
         
         // Initial romantic activities
         this.initialItems = [
-            { text: "Road trip somewhere remote to stargaze", icon: "fa-star", checked: false, date: "", memory: "" },
-            { text: "Be friends with each other's friends", icon: "fa-users", checked: false, date: "", memory: "" },
-            { text: "Camping OR hiking", icon: "fa-campground", checked: false, date: "", memory: "" },
-            { text: "Sing and play guitar", icon: "fa-guitar", checked: false, date: "", memory: "" },
-            { text: "Sienna's fam reunion", icon: "fa-people-roof", checked: false, date: "", memory: "" },
-            { text: "Go to Narnia (the secret spot!)", icon: "fa-tree", checked: false, date: "", memory: "" },
-            { text: "Surfing", icon: "fa-water", checked: false, date: "", memory: "" },
-            { text: "Fishing and Kayaking", icon: "fa-fish", checked: false, date: "", memory: "" },
-            { text: "Golfing", icon: "fa-golf-ball-tee", checked: false, date: "", memory: "" },
-            { text: "Pickle ball", icon: "fa-table-tennis-paddle-ball", checked: false, date: "", memory: "" },
-            { text: "Tennis", icon: "fa-baseball-bat-ball", checked: true, date: "", memory: "" },
-            { text: "Pleasant Park run", icon: "fa-person-running", checked: false, date: "", memory: "" },
-            { text: "Ride a two-person bicycle", icon: "fa-bicycle", checked: false, date: "", memory: "" },
-            { text: "Play soccer at the beach", icon: "fa-futbol", checked: false, date: "", memory: "" },
-            { text: "Drive in theatre", icon: "fa-film", checked: false, date: "", memory: "" },
-            { text: "Bake together", icon: "fa-cookie-bite", checked: false, date: "", memory: "" },
-            { text: "Go to Ontree", icon: "fa-tree-city", checked: false, date: "", memory: "" },
-            { text: "Go to Torii's cottage", icon: "fa-house-chimney-window", checked: false, date: "", memory: "" },
-            { text: "Go to Sienna's cottage", icon: "fa-house-chimney-user", checked: false, date: "", memory: "" },
-            { text: "Bike to the dam and swim at night", icon: "fa-moon", checked: false, date: "", memory: "" },
-            { text: "Skinny dip", icon: "fa-water-ladder", checked: false, date: "", memory: "" },
-            { text: "Karaoke", icon: "fa-microphone-lines", checked: false, date: "", memory: "" },
-            { text: "Do a couple's yoga pose", icon: "fa-heart-pulse", checked: false, date: "", memory: "" }
+            { text: "Road trip somewhere remote to stargaze", icon: "fa-star", checked: false, date: "" },
+            { text: "Be friends with each other's friends", icon: "fa-users", checked: false, date: "" },
+            { text: "Camping OR hiking", icon: "fa-campground", checked: false, date: "" },
+            { text: "Sing and play guitar", icon: "fa-guitar", checked: false, date: "" },
+            { text: "Sienna's fam reunion", icon: "fa-people-roof", checked: false, date: "" },
+            { text: "Go to Narnia (the secret spot!)", icon: "fa-tree", checked: false, date: "" },
+            { text: "Surfing", icon: "fa-water", checked: false, date: "" },
+            { text: "Fishing and Kayaking", icon: "fa-fish", checked: false, date: "" },
+            { text: "Golfing", icon: "fa-golf-ball-tee", checked: false, date: "" },
+            { text: "Pickle ball", icon: "fa-table-tennis-paddle-ball", checked: false, date: "" },
+            { text: "Tennis", icon: "fa-baseball-bat-ball", checked: true, date: "" },
+            { text: "Pleasant Park run", icon: "fa-person-running", checked: false, date: "" },
+            { text: "Ride a two-person bicycle", icon: "fa-bicycle", checked: false, date: "" },
+            { text: "Play soccer at the beach", icon: "fa-futbol", checked: false, date: "" },
+            { text: "Drive in theatre", icon: "fa-film", checked: false, date: "" },
+            { text: "Bake together", icon: "fa-cookie-bite", checked: false, date: "" },
+            { text: "Go to Ontree", icon: "fa-tree-city", checked: false, date: "" },
+            { text: "Go to Torii's cottage", icon: "fa-house-chimney-window", checked: false, date: "" },
+            { text: "Go to Sienna's cottage", icon: "fa-house-chimney-user", checked: false, date: "" },
+            { text: "Bike to the dam and swim at night", icon: "fa-moon", checked: false, date: "" },
+            { text: "Skinny dip", icon: "fa-water-ladder", checked: false, date: "" },
+            { text: "Karaoke", icon: "fa-microphone-lines", checked: false, date: "" },
+            { text: "Do a couple's yoga pose", icon: "fa-heart-pulse", checked: false, date: "" }
         ];
         
         this.init();
@@ -82,69 +81,15 @@ class LoveBucketList {
         // Modal events
         const celebrationModal = document.getElementById('celebration-modal');
         const closeCelebration = document.getElementById('close-celebration');
-        const memoryModal = document.getElementById('memory-modal');
-        const closeMemory = document.querySelector('.close-memory');
-        const saveMemory = document.getElementById('save-memory');
-        const cancelMemory = document.getElementById('cancel-memory');
-        const deleteMemory = document.getElementById('delete-memory');
         
         closeCelebration.addEventListener('click', () => {
             celebrationModal.style.display = 'none';
-        });
-        
-        closeMemory.addEventListener('click', () => {
-            memoryModal.style.display = 'none';
-        });
-        
-        cancelMemory.addEventListener('click', () => {
-            memoryModal.style.display = 'none';
-        });
-        
-        saveMemory.addEventListener('click', () => this.saveMemory());
-        
-        // Delete memory with hold-to-delete functionality
-        let deleteTimeout;
-        let isDeleting = false;
-        
-        deleteMemory.addEventListener('mousedown', () => {
-            if (isDeleting) return;
-            isDeleting = true;
-            deleteMemory.classList.add('deleting');
-            deleteMemory.querySelector('.delete-text').textContent = 'Deleting...';
-            
-            deleteTimeout = setTimeout(() => {
-                this.deleteMemory();
-                isDeleting = false;
-            }, 2000);
-        });
-        
-        deleteMemory.addEventListener('mouseup', () => {
-            if (deleteTimeout) {
-                clearTimeout(deleteTimeout);
-                deleteTimeout = null;
-            }
-            deleteMemory.classList.remove('deleting');
-            deleteMemory.querySelector('.delete-text').textContent = 'Hold to Delete';
-            isDeleting = false;
-        });
-        
-        deleteMemory.addEventListener('mouseleave', () => {
-            if (deleteTimeout) {
-                clearTimeout(deleteTimeout);
-                deleteTimeout = null;
-            }
-            deleteMemory.classList.remove('deleting');
-            deleteMemory.querySelector('.delete-text').textContent = 'Hold to Delete';
-            isDeleting = false;
         });
         
         // Close modals on outside click
         window.addEventListener('click', (e) => {
             if (e.target === celebrationModal) {
                 celebrationModal.style.display = 'none';
-            }
-            if (e.target === memoryModal) {
-                memoryModal.style.display = 'none';
             }
         });
     }
@@ -190,8 +135,7 @@ class LoveBucketList {
                 text: text,
                 icon: this.getIcon(text),
                 checked: false,
-                date: "",
-                memory: ""
+                date: ""
             };
             
             this.bucketListItems.push(newItem);
@@ -255,8 +199,6 @@ class LoveBucketList {
         const itemDiv = document.createElement('div');
         itemDiv.className = `bucket-item ${item.checked ? 'completed' : ''}`;
         
-        const hasMemory = item.memory && item.memory.trim() !== '';
-        
         itemDiv.innerHTML = `
             <div class="item-content">
                 <div class="item-checkbox-container">
@@ -272,11 +214,6 @@ class LoveBucketList {
                     </div>
                     <div class="item-actions">
                         <input type="date" value="${item.date}" class="item-date" placeholder="Date completed">
-                        <button class="memory-btn" onclick="bucketList.openMemoryModal(${index})">
-                            <i class="fas fa-heart"></i>
-                            ${hasMemory ? 'View Memory' : 'Add Memory'}
-                            ${hasMemory ? '<span class="memory-indicator"></span>' : ''}
-                        </button>
                     </div>
                 </div>
             </div>
@@ -329,69 +266,7 @@ class LoveBucketList {
         this.saveToStorage();
     }
     
-    // Memory Management
-    openMemoryModal(index) {
-        this.currentEditingIndex = index;
-        const item = this.bucketListItems[index];
-        
-        document.getElementById('memory-text').value = item.memory || '';
-        document.getElementById('memory-date').value = item.date || '';
-        
-        // Show/hide delete button based on whether memory exists
-        const deleteBtn = document.getElementById('delete-memory');
-        const hasMemory = item.memory && item.memory.trim() !== '';
-        deleteBtn.style.display = hasMemory ? 'block' : 'none';
-        
-        document.getElementById('memory-modal').style.display = 'block';
-    }
-    
-    saveMemory() {
-        if (this.currentEditingIndex === null) return;
-        
-        const memoryText = document.getElementById('memory-text').value;
-        const memoryDate = document.getElementById('memory-date').value;
-        
-        this.bucketListItems[this.currentEditingIndex].memory = memoryText;
-        this.bucketListItems[this.currentEditingIndex].date = memoryDate;
-        
-        this.saveToStorage();
-        this.renderList();
-        document.getElementById('memory-modal').style.display = 'none';
-        this.currentEditingIndex = null;
-    }
-    
-    deleteMemory() {
-        if (this.currentEditingIndex === null) return;
-        
-        // Clear the memory and optionally the date
-        this.bucketListItems[this.currentEditingIndex].memory = '';
-        
-        this.saveToStorage();
-        this.renderList();
-        document.getElementById('memory-modal').style.display = 'none';
-        this.currentEditingIndex = null;
-        
-        // Show a subtle confirmation
-        const notification = document.createElement('div');
-        notification.textContent = 'Memory deleted';
-        notification.style.cssText = `
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(220, 53, 69, 0.9);
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 1rem;
-            z-index: 10000;
-            font-weight: 500;
-        `;
-        document.body.appendChild(notification);
-        
-        setTimeout(() => {
-            document.body.removeChild(notification);
-        }, 2000);
-    }
+
     
     // Progress Management
     updateProgress() {
